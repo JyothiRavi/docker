@@ -1,11 +1,11 @@
 Author Jyothi Ravi
 
-Clone the repository
+Clone the repository<br>
 Note: Change the credentials in the .env file.
-#cd docker/mongo-single
-#docker-compose up -d
-#docker container ls
-#docker exec -it <CONTAINER ID> bash
+<br>#cd docker/mongo-single
+<br>#docker-compose up -d
+<br>#docker container ls
+<br>#docker exec -it (CONTAINER ID) bash
 
 mongo -u root -p --authenticationDatabase admin
 
