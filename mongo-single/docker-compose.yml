@@ -1,0 +1,19 @@
+version: "3"
+services:
+  mongodb:
+    image: mongo:3.6.18-xenial
+    container_name: mongodb
+    hostname: mongodb
+    volumes:
+      - $PWD/mongod.conf:/etc/mongod.conf
+      - $PWD/deployment_scripts/:/docker-entrypoint-initdb.d/
+      - /data/db/:/data/db/
+      - /data/log/:/var/log/mongodb/
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+      - "27017:27017"
