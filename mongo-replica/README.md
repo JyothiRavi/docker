@@ -10,9 +10,9 @@ Clone the repository
 <br>#docker container ls
 <br>#docker exec -it mongodb1 bash
 
-mongo -u root -p --authenticationDatabase admin
+<br>mongo -u root -p --authenticationDatabase admin
 
-rs.initiate({
+<br>rs.initiate({
     _id : 'rs0',
     members: [
       { _id : 0, host : "mongodb1:27017" },
@@ -23,18 +23,18 @@ rs.initiate({
   })
 
 <br>#docker exec -it mongodb2 bash
-mongo -u root -p --authenticationDatabase admin
-rs.slaveOk();
-show dbs;
+<br>mongo -u root -p --authenticationDatabase admin
+<br>rs.slaveOk();
+<br>show dbs;
  
 <br>#docker exec -it mongodb3 bash
-mongo -u root -p --authenticationDatabase admin
-rs.slaveOk();
-show dbs;
+<br>mongo -u root -p --authenticationDatabase admin
+<br>rs.slaveOk();
+<br>show dbs;
 
 <br>#docker exec -it mongodb4 bash
-mongo -u root -p --authenticationDatabase admin
-rs.slaveOk();
-show dbs;
+<br>mongo -u root -p --authenticationDatabase admin
+<br>rs.slaveOk();
+<br>show dbs;
 
 <br># Create a database in the primary replica and check in the secondary nodes to check replication is working.
