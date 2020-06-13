@@ -1,0 +1,103 @@
+version: "3.8"
+services:
+  mongodb1:
+    build: ./mongo-dockerfile/
+    container_name: mongodb1
+    hostname: mongodb1
+    volumes:
+      - $PWD/mongod.conf:/etc/mongod.conf
+      - $PWD/deployment_scripts/:/docker-entrypoint-initdb.d/
+      - /data/db1/:/data/db/
+      - /data/log1/:/var/log/mongodb/
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_REPLICA_SET_NAME: ${MONGO_REPLICA_SET_NAME}
+    expose:
+      - 27017
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: test $$(echo "rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+    command: [ "docker-entrypoint.sh", "--keyFile", "/mongo_key", "--bind_ip_all", "--replSet", "${MONGO_REPLICA_SET_NAME}" ]
+  mongodb2:
+    build: ./mongo-dockerfile/
+    container_name: mongodb2
+    hostname: mongodb2
+    volumes:
+      - $PWD/mongod.conf:/etc/mongod.conf
+      - $PWD/deployment_scripts/:/docker-entrypoint-initdb.d/
+      - /data/db2/:/data/db/
+      - /data/log2/:/var/log/mongodb/
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_REPLICA_SET_NAME: ${MONGO_REPLICA_SET_NAME}
+    expose:
+      - 27017
+    ports:
+      - "27018:27017"
+    healthcheck:
+      test: test $$(echo "rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+    command: [ "docker-entrypoint.sh", "--keyFile", "/mongo_key", "--bind_ip_all", "--replSet", "${MONGO_REPLICA_SET_NAME}" ]
+  mongodb3:
+    build: ./mongo-dockerfile/
+    container_name: mongodb3
+    hostname: mongodb3
+    volumes:
+      - $PWD/mongod.conf:/etc/mongod.conf
+      - $PWD/deployment_scripts/:/docker-entrypoint-initdb.d/
+      - /data/db3/:/data/db/
+      - /data/log3/:/var/log/mongodb/
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_REPLICA_SET_NAME: ${MONGO_REPLICA_SET_NAME}
+    expose:
+      - 27017
+    ports:
+      - "27019:27017"
+    healthcheck:
+      test: test $$(echo "rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+    command: [ "docker-entrypoint.sh", "--keyFile", "/mongo_key", "--bind_ip_all", "--replSet", "${MONGO_REPLICA_SET_NAME}" ]
+  mongodb4:
+    build: ./mongo-dockerfile/
+    container_name: mongodb4
+    hostname: mongodb4
+    volumes:
+      - $PWD/mongod.conf:/etc/mongod.conf
+      - $PWD/deployment_scripts/:/docker-entrypoint-initdb.d/
+      - /data/db4/:/data/db/
+      - /data/log4/:/var/log/mongodb/
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_REPLICA_SET_NAME: ${MONGO_REPLICA_SET_NAME}
+    expose:
+      - 27017
+    ports:
+      - "27020:27017"
+    healthcheck:
+      test: test $$(echo "rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+    command: [ "docker-entrypoint.sh", "--keyFile", "/mongo_key", "--bind_ip_all", "--replSet", "${MONGO_REPLICA_SET_NAME}" ]
+
