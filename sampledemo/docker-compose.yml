@@ -1,0 +1,60 @@
+version: "3.9"
+services:
+        nodeapp_container:
+                build:
+                        context: $PWD/BackendDemoProject
+                        dockerfile: $PWD/BackendDemoProject/Dockerfile
+                container_name: nodeapp        
+                networks: 
+                        - node_app_net        
+                ports:
+                        - "8080:8080"
+                links:
+                      - mongodb_container
+                      - mysqldb_container
+                depends_on:
+                        - mongodb_container
+                        - mysqldb_container        
+                entrypoint: dockerize -wait tcp://mysqldb_host:3306 -wait tcp://mongodb_host:27017 -timeout 300s -wait-retry-interval 30s
+                command: node index.js          
+        mongodb_container:
+                image: mongo:3.6
+                container_name: mongodb
+                hostname: mongodb_host
+                volumes:
+                        - mongodb_data:/data/db/
+                env_file:
+                        - .env
+                environment:
+                            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+                            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+                            MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+                ports:
+                     - "27017:27017"
+                networks:
+                        - node_app_net       
+        mysqldb_container:
+                 image: mysql:5.7
+                 container_name: mysqldb
+                 hostname: mysqldb_host
+                 networks:
+                        - node_app_net         
+                 env_file:
+                        - .env
+                 environment:
+                            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+                            MYSQL_USER: ${MYSQL_USER}
+                            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+                            MYSQL_DATABASE: ${MYSQL_DATABASE}
+                 volumes:
+                        - mysqldb_data:/var/lib/mysql/
+                 ports:
+                      - "3306:3306"                                         
+networks:
+        node_app_net:
+                 driver: bridge
+volumes:
+        mongodb_data:
+                 driver: local
+        mysqldb_data:
+                 driver: local         
