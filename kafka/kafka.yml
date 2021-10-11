@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  kafka:
+    image: bitnami/kafka:2.8.0
+    container_name: kafka_container
+    hostname: kafka.example.com
+    networks:
+      sample-network:
+        ipv4_address: '192.168.240.14'
+    extra_hosts:
+      - 'kafka.example.com:192.168.240.14'    
+    ports:
+      - "9092:9092"
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper.example.com:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka.example.com:9092
+      - KAFKA_HEAP_OPTS=-Xms1G -Xmx1G -XX:MetaspaceSize=96m -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:G1HeapRegionSize=16M -XX:MinMetaspaceFreeRatio=50 -XX:MaxMetaspaceFreeRatio=80
+volumes:
+  kafka_data:
+    driver: local
+networks:
+  sample-network:
+    external: true
