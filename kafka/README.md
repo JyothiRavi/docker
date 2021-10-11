@@ -5,6 +5,7 @@ Storing the kafka topics data into mongodb.
 Prerequisite:
 
 docker network create --driver=bridge --subnet=192.168.0.0/16 sample-network
+
 Create a zookeeper and mongodb containers. For reference check zookeeper and mongodb in github.
 
 Versions:
